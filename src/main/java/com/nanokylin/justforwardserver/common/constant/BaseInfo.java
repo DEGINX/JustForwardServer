@@ -25,7 +25,7 @@ public class BaseInfo {
     //CatPawServer构建时间
     public static final String JUST_FORWARD_SERVER_BUILD_TIME = "2020/12/16 TUE Hanbings 3219065882@qq.com";
     //LOGO
-    public static final String OUR_CHAT_SERVER_LOGO ="             \n" +
+    public static final String JUST_FORWARD_SERVER_LOGO ="             \n" +
             "     ____.               __ ___________                                    .___\n" +
             "    |    |__ __  _______/  |\\_   _____/____________  _  _______ _______  __| _/\n" +
             "    |    |  |  \\/  ___/\\   __\\    __)/  _ \\_  __ \\ \\/ \\/ /\\__  \\\\_  __ \\/ __ | \n" +

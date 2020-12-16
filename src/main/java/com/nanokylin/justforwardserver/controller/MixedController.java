@@ -28,6 +28,6 @@ public class MixedController {
         log.info(Language.getText("java_class_path") + BaseInfo.JAVA_CLASS_PATH);
         log.info(Language.getText("cat_paw_server_version") + BaseInfo.JUST_FORWARD_SERVER_VERSION);
         log.info(Language.getText("cat_paw_server_build_time") + BaseInfo.JUST_FORWARD_SERVER_BUILD_TIME);
-        log.info(BaseInfo.OUR_CHAT_SERVER_LOGO);
+        log.info(BaseInfo.JUST_FORWARD_SERVER_LOGO);
     }
 }

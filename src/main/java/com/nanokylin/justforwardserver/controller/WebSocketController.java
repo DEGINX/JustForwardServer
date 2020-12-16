@@ -3,7 +3,6 @@ package com.nanokylin.justforwardserver.controller;
 import com.nanokylin.justforwardserver.common.Config;
 import com.nanokylin.justforwardserver.service.WebSocketPoolService;
 import com.nanokylin.justforwardserver.service.impl.WebSocketPoolServiceImpl;
-import com.nanokylin.justforwardserver.utils.JsonUtil;
 import com.nanokylin.justforwardserver.utils.LogUtil;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
@@ -11,7 +10,6 @@ import org.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.util.Map;
 
 public class WebSocketController extends WebSocketServer {
     private static final LogUtil log = new LogUtil();
@@ -35,35 +33,20 @@ public class WebSocketController extends WebSocketServer {
 
     @Override
     public void onOpen(WebSocket connect, ClientHandshake handshake) {
-
-        ///////////////////////// Test ////////////////////////////
-        connect.send("== 欢迎连接CatPawServer ==");
-        connect.send("Github: https://github.com/hanbings/CatPawServer");
-        connect.send("===================");
-        ////////////////////////////////////////////////////////////
-        broadcast("新连接: " + handshake.getResourceDescriptor());
         log.info("新连接: " + connect.getRemoteSocketAddress());
-
+        this.userJoin(connect,connect.getResourceDescriptor());
     }
 
     @Override
     public void onClose(WebSocket connect, int code, String reason, boolean remote) {
         log.info("关闭: " + connect.getRemoteSocketAddress() + " 退出代码: " + code + " 地址信息: " + reason);
+        this.userLeave(connect);
     }
 
     @Override
     public void onMessage(WebSocket connect, String message) {
         log.info("已收到来自主机的: " + connect.getRemoteSocketAddress() + ": " + message);
-        if (message.startsWith("CATC001") && message.endsWith("E")){
-            String json = message.substring(7,message.length() -1 );
-            JsonUtil jsonUtil = new JsonUtil();
-            Map<String,Object> jsonMap =  jsonUtil.jsonToMap(json);
-            if(jsonMap.get("username").toString() != null){
-                log.info("已将用户加入WebSocket连接池" + jsonMap.get("username").toString());
-                userJoin(connect,jsonMap.get("username").toString());
-                connect.send("已接收到协议CATC001: " + message);
-            }
-        }
+        webSocketPoolService.sendMessageToAll(message);
     }
 
     @Override
